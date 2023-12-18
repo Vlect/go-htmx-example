@@ -1,0 +1,43 @@
+{{ block "index" . }}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="https://unpkg.com/htmx.org@1.9.9"
+            integrity="sha384-QFjmbokDn2DjBjq+fM+8LUIVrAgqcNW2s0PjAxHETgRn9l4fvX31ZxDxvwQnyMOX"
+            crossorigin="anonymous"></script>
+    </head>
+    <body>
+
+        {{ template "form" . }}
+        <hr />
+        {{ template "contactContainer" . }}
+
+    </body>
+</html>
+{{ end }}
+
+{{ block "form" . }}
+    <form style="display: flex; flex-direction: column; align-items: start; gap: 5px" hx-target="#contact-list" hx-post="/contacts">
+        name: <input type="text" name="name" />
+        email: <input type="text" name="email" />
+        <button type="submit">Create Contact</button>
+    </form>
+{{ end }}
+
+{{ block "contactContainer" . }}
+    <div id="contact-list" style="display: flex; flex-direction: column; gap: 8px">
+        {{ template "contactList" . }}
+    </div>
+{{ end }}
+
+{{ block "contactList" . }}
+    {{ range .ContactList }}
+        <div style="display: flex; gap: 10px">
+            <span>- <strong>Name: </strong>{{ .Name }}</span>
+            <span>- <strong>Email: </strong>{{ .Email }}</span>
+        </div>
+    {{ end }}
+{{ end }}
